@@ -69,3 +69,16 @@ They can ask basic questions directly to the chatbot first, before escalating mo
 5. The system searches for relevant paragraphs, the LLM generates an answer, and the chatbot responds clearly.
 
 ---
+
+flowchart TD
+    A[PDF Documents] --> B[OCR <br/> (EasyOCR + OpenCV)]
+    B --> C[Text Extraction <br/> .txt files]
+    C --> D[Embeddings <br/> (Sentence-Transformers)]
+    D --> E[Qdrant Vector DB]
+    F[User Question] --> G[Chainlit UI]
+    G --> H[FastAPI Backend]
+    H --> E
+    E --> H
+    H --> I[Ollama + LLaMA 3 <br/> LLM Response]
+    I --> G
+
