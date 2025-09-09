@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+easyocr
+opencv-python-headless
+numpy
+pdf2image
+torch
+psutil
+python-multipart
+poppler-utils
+gputil

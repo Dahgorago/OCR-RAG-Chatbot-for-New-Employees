@@ -1,0 +1,6 @@
+fastapi
+pydantic
+torch
+sentence-transformers
+qdrant-client
+uvicorn
