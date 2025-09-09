@@ -1,43 +1,43 @@
-# 📖 RAG Chatbot dengan OCR, Qdrant, Ollama, dan Chainlit
+# 📖 RAG Chatbot with OCR, Qdrant, Ollama, and Chainlit
 
-Proyek ini adalah implementasi **Retrieval-Augmented Generation (RAG) chatbot** yang dikembangkan selama magang.
-Chatbot ini dirancang untuk membantu **karyawan baru** yang baru bergabung dalam tim atau perusahaan.
-Mereka bisa menanyakan pertanyaan dasar terlebih dahulu ke chatbot, sebelum menanyakan pertanyaan yang lebih kompleks kepada senior atau atasan.
-
----
-
-## 🚀 Fitur Utama
-
-* 🔎 **OCR dengan EasyOCR + OpenCV**
-
-  * Sistem ini dapat membaca dokumen PDF berisi peraturan perusahaan.
-  * Prosesnya melibatkan:
-
-    1. Konversi setiap halaman PDF menjadi gambar.
-    2. Pendeteksian area paragraf menggunakan kontur dan morfologi (dilate/erode).
-    3. EasyOCR membaca teks dari area paragraf tersebut.
-    4. Teks hasil ekstraksi dibersihkan dari noise sebelum disimpan.
-
-* 📦 **Vector Database dengan Qdrant**
-
-  * Semua teks hasil OCR diubah menjadi **vector embeddings** menggunakan model `paraphrase-multilingual-mpnet-base-v2`.
-  * Setiap paragraf disimpan sebagai vektor dalam Qdrant dengan payload berupa teks asli.
-  * Saat karyawan bertanya, query akan diubah menjadi embedding, lalu dicocokkan dengan teks yang paling relevan di Qdrant.
-
-* 🧠 **LLM API dengan FastAPI + Ollama**
-
-  * Hasil pencarian dari Qdrant (top-3 paragraf relevan) digunakan sebagai **konteks** untuk LLM.
-  * LLM (`llama3.1` melalui Ollama) memproses pertanyaan + konteks dan menghasilkan jawaban dalam Bahasa Indonesia.
-  * Jika konteks tidak relevan atau kosong, chatbot akan menjawab *"tidak tahu"* sesuai aturan agar tidak mengarang jawaban.
-
-* 💬 **UI dengan Chainlit**
-
-  * Chainlit menyediakan antarmuka chat sederhana, di mana karyawan bisa langsung berinteraksi dengan chatbot.
-  * Saat pesan dikirim, Chainlit meneruskannya ke API FastAPI → Qdrant → Ollama, lalu menampilkan jawaban kembali ke pengguna.
+This project is an implementation of a **Retrieval-Augmented Generation (RAG) chatbot** developed during an internship.
+The chatbot is designed to assist **new employees** who have just joined a team or company.
+They can ask basic questions directly to the chatbot first, before escalating more complex questions to senior colleagues or supervisors.
 
 ---
 
-## 🛠️ Arsitektur Sistem
+## 🚀 Key Features
+
+* 🔎 **OCR with EasyOCR + OpenCV**
+
+  * The system processes company regulation documents in PDF format.
+  * Workflow:
+
+    1. Each page of the PDF is converted into an image.
+    2. Paragraph areas are detected using contour and morphological operations (dilation/erosion).
+    3. EasyOCR extracts text from the identified regions.
+    4. The extracted text is cleaned and pre-processed before storage.
+
+* 📦 **Vector Database with Qdrant**
+
+  * Extracted text is transformed into **vector embeddings** using the `paraphrase-multilingual-mpnet-base-v2` model.
+  * Each paragraph is stored in Qdrant as a vector along with its original text.
+  * When an employee submits a query, it is embedded and matched against the most relevant paragraphs in Qdrant.
+
+* 🧠 **LLM API with FastAPI + Ollama**
+
+  * The top-3 relevant paragraphs retrieved from Qdrant are provided as **context** to the LLM.
+  * The LLM (`llama3.1` via Ollama) generates responses in **Bahasa Indonesia**, tailored to employee queries.
+  * If no relevant context is found, the chatbot responds with *“I don’t know”* to avoid fabricating answers.
+
+* 💬 **User Interface with Chainlit**
+
+  * Chainlit provides a simple, interactive chat interface for employees.
+  * Messages from the user are routed to the FastAPI backend → Qdrant → Ollama, and the chatbot’s response is displayed seamlessly.
+
+---
+
+## 🛠️ System Architecture
 
 ```
 [PDF Documents] 
@@ -52,20 +52,20 @@ Mereka bisa menanyakan pertanyaan dasar terlebih dahulu ke chatbot, sebelum mena
   Qdrant (Vector DB) ───► Query Matching
      │
      ▼
-  FastAPI (LLM Service dengan Ollama + LLaMA3)
+  FastAPI (LLM Service with Ollama + LLaMA3)
      │
      ▼
-  Chainlit (User Interface Chatbot)
+  Chainlit (Chatbot User Interface)
 ```
 
 ---
 
-## 📌 Contoh Penggunaan
+## 📌 Example Use Case
 
-1. Upload dokumen peraturan perusahaan (PDF).
-2. OCR mengekstrak teks peraturan menjadi file `.txt`.
-3. Qdrant menyimpan paragraf-paragraf aturan dalam bentuk vektor.
-4. Karyawan baru bertanya melalui UI Chainlit.
-5. Sistem mencari paragraf terkait, LLM menghasilkan jawaban, dan chatbot memberikan respon yang jelas.
+1. Upload company regulation documents in PDF format.
+2. OCR extracts the text and saves it as `.txt` files.
+3. Qdrant stores paragraphs as vectors for semantic retrieval.
+4. A new employee submits a question through the Chainlit chat interface.
+5. The system searches for relevant paragraphs, the LLM generates an answer, and the chatbot responds clearly.
 
 ---
