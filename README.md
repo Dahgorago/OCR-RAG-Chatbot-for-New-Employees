@@ -1,3 +1,9 @@
+## ⚠️ Disclaimer
+
+The regulation documents (PDFs) used in this project were sourced from publicly available materials found on the internet.
+They are **not internal or confidential documents** provided by supervisors or managers during the internship.
+This project is intended solely as a **technical demonstration** of RAG chatbot capabilities.
+
 # 📖 RAG Chatbot with OCR, Qdrant, Ollama, and Chainlit
 
 This project is an implementation of a **Retrieval-Augmented Generation (RAG) chatbot** developed during an internship.
